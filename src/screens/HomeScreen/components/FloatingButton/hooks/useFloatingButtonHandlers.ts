@@ -1,19 +1,15 @@
 import { useRef, useState } from 'react';
 import { Animated } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import { NoteDetailScreenNavigationProp } from '@navigation/types';
 import { useAudioRecorder } from './useAudioRecorder';
 
 const pressAnimationDuration = 190;
 const releaseAnimationDuration = 150;
 
-interface UseFloatingButtonHandlersProps {
-  onPress: () => void;
-  onLongPress: () => void;
-}
-
-export const useFloatingButtonHandlers = ({
-  onPress,
-  onLongPress,
-}: UseFloatingButtonHandlersProps) => {
+export const useFloatingButtonHandlers = () => {
+  const navigation = useNavigation<NoteDetailScreenNavigationProp>();
   const { startRecording, stopRecording, isRecording } = useAudioRecorder();
 
   const [isLongPressed, setIsLongPressed] = useState(false);
@@ -22,6 +18,10 @@ export const useFloatingButtonHandlers = ({
   const opacityAnim = useRef(new Animated.Value(0.9)).current;
   const heightAnim = useRef(new Animated.Value(50)).current;
   const translateYAnim = useRef(new Animated.Value(0)).current;
+
+  const handleNewNote = () => {
+    navigation.navigate('NoteDetails', { isNew: true });
+  };
 
   const handlePressIn = () => {
     Animated.timing(opacityAnim, {
@@ -56,14 +56,13 @@ export const useFloatingButtonHandlers = ({
       }),
     ]).start();
 
-    if (onLongPress) onLongPress();
     await startRecording();
   };
 
   const handlePressOut = async () => {
     if (isLongPressed) {
       await stopRecording();
-    } else onPress();
+    } else handleNewNote();
 
     Animated.parallel([
       Animated.timing(bottomPositionAnim, {

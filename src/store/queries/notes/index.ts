@@ -13,6 +13,7 @@ export interface Note {
 export const noteApi = createApi({
   reducerPath: 'noteApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/' }),
+  tagTypes: ['Note'],
   endpoints: builder => ({
     fetchNoteDetails: builder.query<Note, number>({
       queryFn: noteId => {
@@ -28,6 +29,7 @@ export const noteApi = createApi({
           };
         }
       },
+      providesTags: (result, error, id) => [{ type: 'Note', id }],
     }),
     createNote: builder.mutation<Note, Omit<Note, 'id' | 'modifiedDate'>>({
       queryFn: newNote => {
@@ -38,6 +40,7 @@ export const noteApi = createApi({
         notesMockData.push(note);
         return { data: note };
       },
+      invalidatesTags: ['Note'],
     }),
     updateNote: builder.mutation<Note, Partial<Note> & { id?: number }>({
       queryFn: updatedNote => {
@@ -55,6 +58,7 @@ export const noteApi = createApi({
 
         return { data: notesMockData[index] };
       },
+      invalidatesTags: (result, error, { id }) => [{ type: 'Note', id }],
     }),
   }),
 });

@@ -5,23 +5,17 @@ import { useFloatingButtonHandlers } from './hooks/useFloatingButtonHandlers';
 import { AnimatedButtonContainer, FullCircleIcon, PlusIcon } from './styles';
 
 interface FloatingButtonProps {
-  onPress: () => void;
-  onLongPress: () => void;
   testID?: string;
 }
 
-const FloatingButton: React.FC<FloatingButtonProps> = ({
-  onPress,
-  onLongPress,
-  testID,
-}) => {
+const FloatingButton: React.FC<FloatingButtonProps> = ({ testID }) => {
   const {
     isLongPressed,
     animatedStyles,
     handlePressIn,
     handlePressOut,
     handleLongPress,
-  } = useFloatingButtonHandlers({ onPress, onLongPress });
+  } = useFloatingButtonHandlers();
 
   return (
     <TouchableWithoutFeedback

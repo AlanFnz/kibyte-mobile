@@ -4,18 +4,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-// Screens
-import LoginScreen from '@screens/LoginScreen';
-import HomeScreen from '@screens/HomeScreen';
-import SettingsScreen from '@screens/SettingsScreen';
-import NoteDetailsScreen from '@screens/NoteDetailsScreen';
-
 // Store
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@store/index';
 import { bootstrapAsync } from '@store/authSlice';
 import { tabNavigatorStyles } from '@navigation/tabNavigatorStyles';
 import { RootStackParamList } from './types';
+// Screens
+
+import LoginScreen from '@screens/LoginScreen';
+import HomeScreen from '@screens/HomeScreen';
+import SettingsScreen from '@screens/SettingsScreen';
+import NoteDetailsScreen from '@screens/NoteDetailsScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
